@@ -1,8 +1,10 @@
 #include <iostream>
 #include "catalog.h"
+#include "globall.h"
 using namespace std;
 int main() {
-	catalog c1,c2;
+	catalog c1, c2;
+	globall g;
 	char v[100] = "Ana";
 	char s[100] = "Ion";
 	c1.SetName(v);
@@ -17,13 +19,13 @@ int main() {
 	c2.GetAvarage();
 	c1.Print();
 	c2.Print();
-	cout << "comparare mate :" << c1.CompareMath(c1.GetGradeMath(), c2.GetGradeMath())<<'\n';
-	cout << "comparare engleza :" << c1.CompareEnglish(c1.GetGradeEnglish(), c2.GetGradeEnglish())<<'\n';
-	cout << "comparare istorie :" << c1.CompareHistory(c1.GetGradeHistory(), c2.GetGradeHistory());
+	cout << "comparare mate :" << g.CompareMath(c1.GetGradeMath(), c2.GetGradeMath()) << '\n';
+	cout << "comparare engleza :" << g.CompareEnglish(c1.GetGradeEnglish(), c2.GetGradeEnglish()) << '\n';
+	cout << "comparare istorie :" << g.CompareHistory(c1.GetGradeHistory(), c2.GetGradeHistory());
 	return 0;
 
 
-	
+
 
 
 
