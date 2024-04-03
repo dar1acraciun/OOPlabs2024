@@ -54,25 +54,24 @@ void Number::Print() {
 }
 
 Number Number::operator+(const Number ex) {
-    // Determinați baza maximă dintre cele două numere
+   
     int base = std::max(this->base, ex.base);
 
-    // Inițializați un obiect Number temporar pentru fiecare număr
-    Number n1(*this); // copie a primului număr
-    Number n2(ex);    // copie a celui de-al doilea număr
+    Number n1(*this);
+    Number n2(ex);    
 
-    // Convertește ambele numere în baza 10
+
     n1.SwitchBase(10);
     n2.SwitchBase(10);
 
-    // Determinați lungimea maximă a rezultatului și alocați memorie
+   
     int maxSize = std::max(n1.GetDigitsCount(), n2.GetDigitsCount()) + 2;
     char* resultString = new char[maxSize];
 
     int carry = 0;
     int resultIndex = 0;
 
-    // Adunare în baza 10
+  
     for (int i = n1.GetDigitsCount() - 1, j = n2.GetDigitsCount() - 1; i >= 0 || j >= 0 || carry; --i, --j) {
         int sum = carry;
         if (i >= 0) sum += n1.number[i] - '0';
@@ -82,22 +81,19 @@ Number Number::operator+(const Number ex) {
         carry = sum / 10;
     }
 
-    // Adăugați caracterul terminat la șirul rezultat
+  
     resultString[resultIndex] = '\0';
 
-    // Inversați șirul pentru a obține rezultatul corect
     for (int i = 0; i < resultIndex / 2; ++i) {
         std::swap(resultString[i], resultString[resultIndex - i - 1]);
     }
 
-    // Inițializați un obiect Number cu rezultatul și comutați baza
     Number result(resultString, 10);
     result.SwitchBase(base);
 
-    // Eliberați memoria alocată pentru șir
+ 
     delete[] resultString;
 
-    // Returnați rezultatul
     return result;
 }
 
@@ -162,7 +158,7 @@ void Number::SwitchBase(int NewBase) {
             nr = nr * 10 + (this->number[i] - '0');
     }
 
-    char* p = new char[20]; // Dimensiunea maximă a numărului în baza 16 este 20
+    char* p = new char[20]; 
     int contor = 0;
     while (nr) {
         int rest = nr % NewBase;
@@ -177,7 +173,7 @@ void Number::SwitchBase(int NewBase) {
     p[contor] = '\0';
     for (int i = 0; i < contor/ 2; i++)
         std::swap(p[i], p[contor - i - 1]);
-    strcpy_s(this->number, strlen(p) + 1, p); // Copierea rezultatului în this->number
+    strcpy_s(this->number, strlen(p) + 1, p); 
     this->base = NewBase;
     delete[] p;
 }
