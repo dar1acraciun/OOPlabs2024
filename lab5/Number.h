@@ -21,6 +21,7 @@ public:
 	void operator=(int x);
 	void operator=(const char* p);
 	void SwitchBase(int newBase);
+	char Operator[](int x);
 	void Print();
 	int  GetDigitsCount(); // returns the number of digits for the current number
 	int  GetBase(); // returns the current base

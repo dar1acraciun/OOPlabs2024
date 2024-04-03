@@ -250,3 +250,120 @@ Number& Number::operator=(const Number& ex) {
     }
     return *this;
 }
+char Number::operator[](int x)
+{
+    return this->x[x];
+}
+Number operator+ (Number first, Number second)
+{
+    if (first.base < second.base)
+        first.SwitchBase(second.base);
+    else
+        second.SwitchBase(first.base);
+
+    int base = first.base;
+    int lgf = first.GetDigitsCount();
+    int lgs = second.GetDigitsCount();
+    int carry = 0;
+
+    if (lgf < lgs)
+    {
+        std::swap(first, second);
+        std::swap(lgf, lgs);
+    }
+
+    int i, j;
+    for (i = lgf - 1, j = lgs - 1; i >= 0 && j >= 0; j--, i--)
+    {
+        if (lgf >= lgs)
+        {
+            first.x[i] = first.x[i] - '0' + second.x[j] + carry;
+            carry = 0;
+
+            if (first.x[i] >= base + '0')
+            {
+                carry = first.x[i] - '0' - base + 1;
+                first.x[i] -= base;
+            }
+        }
+    }
+
+
+    if (carry != 0)
+    {
+        if (j * i <= 0)
+        {
+            if (j < 0)
+            {
+                while (carry != 0 && i >= 0)
+                {
+                    first.x[i] = first.x[i] + carry;
+                    carry = 0;
+                    if (first.x[i] > base + '0')
+                    {
+                        carry = first.x[i] - '0' - base + 1;
+                        first.x[i] -= base;
+                    }
+                    i--;
+                }
+            }
+        }
+        if (carry != 0)
+            if (lgf >= lgs)///mai avem nevoie de un spatiu
+            {
+                char* sirNou = new char[lgf + 1];
+                sirNou[0] = '0' + carry;
+                int k;
+                for (k = 1; k < lgf + 1; k++)
+                {
+                    sirNou[k] = first.x[k - 1];
+                }
+                sirNou[k] = NULL;
+                delete first.x;
+                first.x = sirNou;
+                first.nrOfDig++;
+            }
+
+    }
+    return first;
+
+}
+Number operator- (Number first, Number second)
+{
+    if (second > first)
+    {
+        std::swap(first, second);
+    }
+
+    if (first.base < second.base)
+        first.SwitchBase(second.base);
+    else
+        second.SwitchBase(first.base);
+
+    int base = first.base;
+    int lgf = first.GetDigitsCount();
+    int lgs = second.GetDigitsCount();
+    int carry = 0;
+
+    int i, j;
+    for (i = lgf - 1, j = lgs - 1; i >= 0 && j >= 0; j--, i--)
+    {
+        if (lgf >= lgs)
+        {
+            first.x[i] = first.x[i] + '0' - second.x[j];
+            if (first.x[i] < '0')
+            {
+                first.x[i] += base;
+                first.x[i - 1]--;
+            }
+        }
+    }
+    if (first.x[0] == '0')
+    {
+        for (int i = 0; i < first.nrOfDig - 1; i++)
+        {
+            first.x[i] = first.x[i + 1];
+        }
+    }
+    return first;
+}
