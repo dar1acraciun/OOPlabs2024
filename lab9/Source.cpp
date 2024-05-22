@@ -118,7 +118,9 @@ public:
     public:
         list* current;
 
-        iterator(list* node) : current(node) {}
+        iterator(list* node) : {
+            current=node;
+        }
 
         bool operator!=(const iterator& other) const {
             return current != other.current;
@@ -129,7 +131,7 @@ public:
         }
 
         std::tuple<K, V, int> operator*() const {
-            return std::make_tuple(current->key, current->value, current->index);
+            return make_tuple(current->key, current->value, current->index);
         }
     };
 
